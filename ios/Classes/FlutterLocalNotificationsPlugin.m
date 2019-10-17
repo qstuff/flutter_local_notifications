@@ -78,10 +78,15 @@ typedef NS_ENUM(NSInteger, RepeatInterval) {
     FlutterLocalNotificationsPlugin* instance = [[FlutterLocalNotificationsPlugin alloc] initWithChannel:channel registrar:registrar];
     [registrar addApplicationDelegate:instance];
     [registrar addMethodCallDelegate:instance channel:channel];
-    if(@available(iOS 10.0, *)) {
-        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-        center.delegate = instance;
-    }
+    
+    // NOTE: We do not register for iOS to avoid conflict with Firebase_Messaging
+    // as described in https://pub.dev/packages/flutter_local_notifications
+    // Waiting for a fix
+    
+    //if(@available(iOS 10.0, *)) {
+    //    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    //    center.delegate = instance;
+    //}
 }
 
 - (instancetype)initWithChannel:(FlutterMethodChannel *)channel registrar:(NSObject<FlutterPluginRegistrar> *)registrar {
